@@ -6,15 +6,16 @@ from models import People, Activities
 app = Flask(__name__)
 api = Api(app)
 
+
 class Person(Resource):
     def get(self, name):
-        person = People.query.filter_by(name = name ).first()
+        person = People.query.filter_by(name=name).first()
         try:
             response = {
-            'id': person.id,
-            'name': person.name,
-            'age': person.age
-        }
+                'id': person.id,
+                'name': person.name,
+                'age': person.age
+            }
         except AttributeError:
             response = {
                 'status': 404,
@@ -22,9 +23,9 @@ class Person(Resource):
             }
 
         return response
-    
+
     def put(self, name):
-        person = People.query.filter_by(name = name).first()
+        person = People.query.filter_by(name=name).first()
         data = request.json
         try:
             if 'name' in data:
@@ -36,7 +37,7 @@ class Person(Resource):
                 'id': person.id,
                 'name': person.name,
                 'age': person.age
-                }
+            }
         except AttributeError:
             response = {
                 'status': 404,
@@ -45,7 +46,7 @@ class Person(Resource):
         return response
 
     def delete(self, name):
-        person = People.query.filter_by(name = name).first()
+        person = People.query.filter_by(name=name).first()
         person.delete()
         message = 'Person {} deleted'.format(name)
         response = {
@@ -53,6 +54,7 @@ class Person(Resource):
             'message': message
         }
         return response
+
 
 class ListPeople(Resource):
     def get(self):
@@ -62,20 +64,21 @@ class ListPeople(Resource):
                 'id': person.id,
                 'name': person.name,
                 'age': person.age
-                } for person in people
+            } for person in people
         ]
         return response
-    
+
     def post(self):
         data = request.json
-        person = People(name = data['name'], age = data['age'])
+        person = People(name=data['name'], age=data['age'])
         person.save()
         response = {
-                            'id': person.id,
-                'name': person.name,
-                'age': person.age
+            'id': person.id,
+            'name': person.name,
+            'age': person.age
         }
         return response
+
 
 class ActivitiesList(Resource):
     def get(self):
@@ -92,7 +95,7 @@ class ActivitiesList(Resource):
     def post(self):
         data = request.json
         person = People.query.filter_by(name=data['person']).first()
-        activity = Activities(name = data['name'], person = person)
+        activity = Activities(name=data['name'], person=person)
         activity.save()
         response = {
             'person': activity.person.name,
@@ -100,6 +103,7 @@ class ActivitiesList(Resource):
             'id': activity.id
         }
         return response
+
 
 api.add_resource(Person, '/person/<string:name>')
 api.add_resource(ListPeople, '/person')
