@@ -1,4 +1,4 @@
-# PyAPi
+# PyAPI
 
 PyAPI is a Python API using Flask, Flask-restful and SQLAlchemy for data persistence.
 
