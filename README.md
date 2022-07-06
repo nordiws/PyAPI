@@ -34,7 +34,7 @@ pip install -r requirements.txt
 
 Run the development server
 ```bash
-app.py
+python app.py
 ```
 
 With the REST API Client of your choice access the API endpoints at the address:
